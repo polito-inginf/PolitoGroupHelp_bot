@@ -1,4 +1,4 @@
-package main
+package telegramConnection
 
 import (
 	"fmt"
