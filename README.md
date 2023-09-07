@@ -10,3 +10,13 @@ Be sure to not publish any token or user ID in this repository, since it could b
 
 ## Features
 *No features yet... add some by creating a new branch and a pull request*
+
+## Software architechture
+This bot is divided into microservices, that communicate with each other via RPC
+
+Each folder in the main directory corresponds to a microservice, which are the following:
+
+### telegramConnection
+It is in charge of communicating towards Telegram APIs:
+- it receives messages on behalf of the bot and forwards them to the other services for processing
+- it receives orders from the other services to send requests to the Telegram API
