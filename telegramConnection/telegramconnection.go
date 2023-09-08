@@ -44,9 +44,6 @@ func Main() {
 			continue
 		}
 
-		jsonWithTab, _ := json.MarshalIndent(update, "", "\t")
-		fmt.Println(string(jsonWithTab))
-
 		jsonNoTab, _ := json.MarshalIndent(update, "", "")
 		res, err := decoder.Decode(context.Background(), &messagedecoder.TgMessageInfo{MessageInfo: string(jsonNoTab)})
 		if err != nil {
