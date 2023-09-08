@@ -1,7 +1,7 @@
 package main
 
 import (
-	messagedecoder "PolitoGroupHelpBot/messageDecoder"
+	messagedecoder "PolitoGroupHelpBot/messagedecoder"
 )
 
 func main() {
