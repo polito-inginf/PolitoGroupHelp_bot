@@ -1,6 +1,7 @@
 package messagedecoder
 
 import (
+	"PolitoGroupHelpBot/utils"
 	"fmt"
 	"log"
 	"net"
@@ -19,7 +20,7 @@ func (s *MessageDecoder) Decode(ctx context.Context, message *TgMessageInfo) (*D
 }
 
 func Main() {
-	lis, err := net.Listen("tcp", ":9111")
+	lis, err := net.Listen("tcp", utils.LoadPortFromEnv("DECODER_PORT"))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

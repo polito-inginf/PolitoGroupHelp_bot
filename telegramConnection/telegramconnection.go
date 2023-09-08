@@ -5,23 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	godotenv "github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
 	messagedecoder "PolitoGroupHelpBot/messagedecoder"
+	"PolitoGroupHelpBot/utils"
 )
 
 func Main() {
-	err := godotenv.Load(".env")
-
 	// bot setup
-	bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM_APITOKEN"))
+	bot, err := tgbotapi.NewBotAPI(utils.LoadEnv("TELEGRAM_APITOKEN"))
 	if err != nil {
-		panic(err)
+		log.Fatalf("Could not connect to Telegram bot: %v", err)
 	}
 
 	updateConfig := tgbotapi.NewUpdate(0)
@@ -29,12 +26,13 @@ func Main() {
 	updates := bot.GetUpdatesChan(updateConfig)
 
 	// message decoder connection
-	decoderConn, err := grpc.Dial(":9111", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	decoderConn, err := grpc.Dial(utils.LoadPortFromEnv("DECODER_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic(err)
 	}
 	defer decoderConn.Close()
 
+	// handle messages
 	decoder := messagedecoder.NewMessageDecoderClient(decoderConn)
 
 	for update := range updates {
