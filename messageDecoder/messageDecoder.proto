@@ -1,0 +1,12 @@
+syntax = "proto3";
+package messagedecoder;
+
+option go_package = "PolitoGroupHelpBot/messagedecoder";
+
+service MessageDecoder {
+  rpc Decode(TgMessageInfo) returns (DecoderResult) {}
+}
+
+message TgMessageInfo { string messageInfo = 1; }
+
+message DecoderResult { bool ok = 1; }
