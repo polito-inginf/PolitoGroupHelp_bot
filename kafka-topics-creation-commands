@@ -1,0 +1,1 @@
+docker run --net=host --rm confluentinc/cp-kafka:3.0.1 kafka-topics --create --topic before-filtering --partitions 4 --replication-factor 2 --if-not-exists --zookeeper localhost:32181

@@ -8,15 +8,29 @@ import (
 )
 
 func LoadEnv(name string) (string) {
-	err := godotenv.Load("../../.env")
+	result, err := LoadEnvIfPresent(name)
 	if err != nil {
-		panic(fmt.Sprintf("failed to load env variables file: %v", err))
+		panic(err)
+	}
+
+	return result
+}
+
+func LoadEnvIfPresent (name string) (string, error) {
+	err := godotenv.Load(".env")
+	if err != nil {
+		return "", fmt.Errorf("failed to load env variables file: %v", err)
 	}
 
 	result := os.Getenv(name)
 	if result == "" {
-		panic(fmt.Sprintf("%v env variable is missing", name))
+		return "", fmt.Errorf("%v env variable is missing", name)
 	}
 
-	return result
+	return result, nil
+}
+
+func IsEnvPresent (name string) (bool) {
+	_, err := LoadEnvIfPresent(name)
+	return err == nil
 }
